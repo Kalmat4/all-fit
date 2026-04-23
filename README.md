@@ -1,60 +1,214 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Project: All-Fit
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## General Idea
 
-## About Laravel
+All-Fit is a workout tracking application focused on:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- calisthenics (street workout)
+- weight training (iron)
+- tracking real performance (sets, reps, weight)
+- simplicity and speed of use
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The goal is NOT to build a complex fitness platform, but a clean and practical tool for logging workouts and tracking progress over time.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Laravel (latest, v13+)
+- PHP 8.3.25
+- Node.js 22.22
+- Composer 2.8.11
+- Inertia.js
+- Vue 3
+- Bootstrap (no custom CSS)
+- MySQL
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Architecture Decisions
 
-## Agentic Development
+- Monolith (no separate API)
+- Backend + Frontend in one Laravel app
+- Inertia used instead of REST API
+- Bootstrap used instead of custom CSS
+- Enums used instead of reference tables
+- Business logic separated into Services
+- Validation via FormRequest
+- Thin controllers
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
 
-```bash
-composer require laravel/boost --dev
+## Authentication
 
-php artisan boost:install
-```
+- Laravel Fortify is used
+- Only features enabled:
+  - Login
+  - Register
+  - Logout
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Disabled:
+- password reset
+- email verification
+- two-factor auth
+- profile update features
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Core MVP Features
 
-## Code of Conduct
+### 1. Dashboard
+- today's workout
+- quick start workout
+- navigation to workout programs
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+(no analytics, no progress yet)
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Exercises
+- list of exercises
+- create/edit exercise
+- categories and types via enums
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Workout Programs
+- predefined programs (system)
+- user-created programs
+- add exercises from library
+- define sets/reps/weight
+- reorder exercises
 
-Workout App is a lightweight training tracker designed to help users build strength and stay consistent with their workouts. It combines street workout (calisthenics) and weight training into a single structured system focused on progressive overload. Users can track exercises, sets, reps, and monitor their performance over time. The app emphasizes simplicity and speed, making it easy to log workouts without distractions. It is built with a modern tech stack, ensuring smooth performance and scalability. Perfect for athletes who want a clean and practical tool to improve their results.
+---
+
+### 4. Workout Session (Active Training)
+- start workout from program
+- exercises copied into session (snapshot)
+- input:
+  - reps
+  - weight
+- show previous results
+- complete workout
+
+(no rest timer)
+
+---
+
+### 5. Workout History
+- list of completed workouts
+- view details
+
+---
+
+### 6. Progress
+- NOT implemented yet
+
+---
+
+## Database Structure
+
+### Core Tables
+
+- users
+- exercises
+- workout_programs
+- workout_program_exercises
+- workout_sessions
+- workout_session_exercises
+- workout_session_sets
+
+---
+
+## Key Design Principle
+
+Workout programs are templates.
+
+Workout sessions are actual data.
+
+History is stored independently from programs.
+
+Programs can change — history must NOT break.
+
+---
+
+## Important Backend Structure
+
+### Models
+- User
+- Exercise
+- WorkoutProgram
+- WorkoutProgramExercise
+- WorkoutSession
+- WorkoutSessionExercise
+- WorkoutSessionSet
+
+---
+
+### Controllers
+- DashboardController
+- ExerciseController
+- WorkoutProgramController
+- WorkoutSessionController
+- WorkoutHistoryController
+
+---
+
+### Services
+- WorkoutProgramService
+- WorkoutSessionService
+- PreviousResultService
+
+---
+
+### Enums
+- ExerciseCategoryEnum
+- ExerciseTypeEnum
+- WorkoutProgramTypeEnum
+- WorkoutProgramLevelEnum
+- WorkoutSessionStatusEnum
+
+---
+
+## Frontend Structure
+
+### Pages
+- Auth/Login.vue
+- Auth/Register.vue
+- Dashboard/Index.vue
+- Exercises/*
+- WorkoutPrograms/*
+- WorkoutSessions/*
+- WorkoutHistory/*
+
+### Layouts
+- AppLayout.vue
+- AuthLayout.vue
+
+### Components
+- Navbar
+- Flash messages
+- UI helpers
+
+---
+
+## Development Approach
+
+- Build step-by-step
+- Start from auth
+- Then:
+  1. Exercises
+  2. Programs
+  3. Sessions
+  4. History
+
+No overengineering.
+
+---
+
+## Additional Notes
+
+- No separate CSS files — only Bootstrap
+- No premature optimization
+- Focus on clean architecture and scalability
+- Prefer clarity over magic
