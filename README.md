@@ -56,3 +56,5 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Workout App is a lightweight training tracker designed to help users build strength and stay consistent with their workouts. It combines street workout (calisthenics) and weight training into a single structured system focused on progressive overload. Users can track exercises, sets, reps, and monitor their performance over time. The app emphasizes simplicity and speed, making it easy to log workouts without distractions. It is built with a modern tech stack, ensuring smooth performance and scalability. Perfect for athletes who want a clean and practical tool to improve their results.
