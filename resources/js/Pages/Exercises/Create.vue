@@ -29,7 +29,7 @@ const submit = () => {
             <h4 class="mb-0 fw-bold">Новое упражнение</h4>
         </div>
 
-        <div class="card border-0 shadow-sm" style="max-width: 560px;">
+        <div class="card border-0 shadow-sm mx-auto" style="max-width: 560px;">
             <div class="card-body">
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Название</label>

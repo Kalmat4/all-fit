@@ -34,7 +34,7 @@ const logout = () => {
                             <Link class="nav-link" href="/exercises">Упражнения</Link>
                         </li>
                         <li class="nav-item">
-                            <Link class="nav-link" href="/programs">Программы тренировок</Link>
+                            <Link class="nav-link" href="/workout-programs">Программы тренировок</Link>
                         </li>
                         <li class="nav-item">
                             <Link class="nav-link" href="/history">История</Link>
