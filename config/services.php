@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'telegram' => [
+        'token' => env('TG_TOKEN', ''),
+        'almat' => env('ALMAT_CHAT_ID', 0),
+        'ivan' => env('IVAN_CHAT_ID', 0),
+        'nikita' => env('NIKITA_CHAT_ID', 0),
+        'danil' => env('DANIL_CHAT_ID', 0),
+        'beka' => env('BEKA_CHAT_ID', 0)
+    ]
+
 ];

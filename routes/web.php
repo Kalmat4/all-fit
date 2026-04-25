@@ -27,3 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/history', [WorkoutHistoryController::class, 'index'])->name('workout-history.index');
     Route::get('/history/{workoutSession}', [WorkoutHistoryController::class, 'show'])->name('workout-history.show');
 });
+
+Route::get('/test-telegram-error', function () {
+    throw new \Exception('🧪 Тестовая ошибка Telegram уведомления');
+});
