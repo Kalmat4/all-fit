@@ -24,8 +24,8 @@ props.exercises.forEach(ex => {
         const existing = ex.sets.find(s => s.set_number === i)
         drafts.value[ex.id].push({
             set_number: i,
-            reps: existing?.reps ?? ex.planned_reps ?? '',
-            weight: existing?.weight ?? ex.planned_weight ?? '',
+            reps: existing?.reps ??  '',
+            weight: existing?.weight ?? '',
             saved: !!existing?.completed_at
         })
     }
@@ -161,8 +161,10 @@ const complete = () => {
                         </span>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control form-control-sm" v-model="commDrafts[exercise.id]" 
-                         placeholder="Введите комментарий (необязательно)">
+                         <textarea name="exerciseComm{{ exercise.id }}" id="exerciseComm{{ exercise.id }}" class="form-control from-control-sm"
+                         v-model="commDrafts[exercise.id]" 
+                         placeholder="Введите комментарий (необязательно)"
+                         ></textarea>
                     </div>
                     <div class="col-auto">
                         <button @click="saveComm(exercise.id)"
