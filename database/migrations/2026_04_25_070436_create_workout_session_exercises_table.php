@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('exercise_name'); // снапшот названия упражнения
             $table->unsignedTinyInteger('planned_sets')->default(3);
             $table->string('planned_reps');  // varchar — может быть "8-12" или "до отказа"
+            $table->string('comm')->default('');  // varchar — может быть "8-12" или "до отказа"
             $table->decimal('planned_weight', 5, 2)->nullable();
             $table->unsignedSmallInteger('order')->default(0);
             $table->timestamps();
