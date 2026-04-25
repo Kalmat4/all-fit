@@ -25,7 +25,7 @@ props.exercises.forEach(ex => {
         drafts.value[ex.id].push({
             set_number: i,
             reps: existing?.reps ??  '',
-            weight: existing?.weight ?? '',
+            weight: existing?.weight ?? ex.planned_weight ?? '',
             saved: !!existing?.completed_at
         })
     }
