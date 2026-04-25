@@ -24,7 +24,7 @@ props.exercises.forEach(ex => {
         const existing = ex.sets.find(s => s.set_number === i)
         drafts.value[ex.id].push({
             set_number: i,
-            reps: existing?.reps ??  '',
+            reps: existing?.reps ?? '',
             weight: existing?.weight ?? ex.planned_weight ?? '',
             saved: !!existing?.completed_at
         })
@@ -115,13 +115,13 @@ const complete = () => {
                 </div>
 
                 <!-- Предыдущий результат -->
-                <div v-if="exercise.previous.length" class="mb-3 p-2 bg-light rounded">
+                <div v-if="exercise.previous.sets?.length" class="mb-3 p-2 bg-light rounded">
                     <div class="text-muted mb-1"
                         style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">
                         Прошлый раз
                     </div>
                     <div class="d-flex flex-wrap gap-2">
-                        <span v-for="prev in exercise.previous" :key="prev.set_number"
+                        <span v-for="prev in exercise.previous.sets" :key="prev.set_number"
                             class="badge bg-light text-dark border">
                             {{ prev.set_number }}) {{ prev.reps }} повт.
                             <span v-if="prev.weight">· {{ prev.weight }} кг</span>
@@ -154,6 +154,19 @@ const complete = () => {
                         <span v-else class="text-success">✓</span>
                     </div>
                 </div>
+
+                <!-- Предыдущий комментарий -->
+                <div v-if="exercise.previous.comm?.length" class="mb-3 p-2 bg-light rounded">
+                    <div class="text-muted mb-1"
+                        style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        Прошлый комментарий
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-light text-dark border">
+                            {{ exercise.previous.comm }}
+                        </span>
+                    </div>
+                </div>
                 <div class="row g-2 align-items-center">
                     <div class="col-auto">
                         <span class="badge d-flex align-items-center justify-content-center bg-secondary">
@@ -161,14 +174,12 @@ const complete = () => {
                         </span>
                     </div>
                     <div class="col">
-                         <textarea name="exerciseComm{{ exercise.id }}" id="exerciseComm{{ exercise.id }}" class="form-control from-control-sm"
-                         v-model="commDrafts[exercise.id]" 
-                         placeholder="Введите комментарий (необязательно)"
-                         ></textarea>
+                        <textarea name="exerciseComm{{ exercise.id }}" id="exerciseComm{{ exercise.id }}"
+                            class="form-control from-control-sm" v-model="commDrafts[exercise.id]"
+                            placeholder="Введите комментарий (необязательно)"></textarea>
                     </div>
                     <div class="col-auto">
-                        <button @click="saveComm(exercise.id)"
-                            class="btn btn-outline-primary btn-sm">
+                        <button @click="saveComm(exercise.id)" class="btn btn-outline-primary btn-sm">
                             ✓
                         </button>
                     </div>

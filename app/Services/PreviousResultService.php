@@ -13,9 +13,11 @@ class PreviousResultService
     {
         $previous = WorkoutSessionExercise::query()
             ->where('exercise_id', $exerciseId)
-            ->whereHas('session', fn($q) => $q
-                ->where('user_id', Auth::id())
-                ->where('status', WorkoutSessionStatusEnum::Completed)
+            ->whereHas(
+                'session',
+                fn($q) => $q
+                    ->where('user_id', Auth::id())
+                    ->where('status', WorkoutSessionStatusEnum::Completed)
             )
             ->with('sets')
             ->latest()
@@ -25,10 +27,13 @@ class PreviousResultService
             return [];
         }
 
-        return $previous->sets->map(fn($s) => [
-            'set_number' => $s->set_number,
-            'reps'       => $s->reps,
-            'weight'     => $s->weight,
-        ])->toArray();
+        return [
+            'comm' => $previous->comm,
+            'sets' => $previous->sets->map(fn($s) => [
+                'set_number' => $s->set_number,
+                'reps'       => $s->reps,
+                'weight'     => $s->weight,
+            ])->toArray()
+        ];
     }
 }
