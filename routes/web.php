@@ -1,33 +1,19 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ExerciseController;
-use App\Http\Controllers\WorkoutHistoryController;
-use App\Http\Controllers\WorkoutProgramController;
-use App\Http\Controllers\WorkoutSessionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::redirect('/', '/login');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('exercises', ExerciseController::class);
-    Route::resource('workout-programs', WorkoutProgramController::class);
 
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    // Сессии
-    Route::post('/sessions/start/{workoutProgram}', [WorkoutSessionController::class, 'start'])->name('workout-sessions.start');
-    Route::get('/sessions/{workoutSession}', [WorkoutSessionController::class, 'show'])->name('workout-sessions.show');
-    Route::post('/sessions/{sessionExercise}/set', [WorkoutSessionController::class, 'saveSet'])->name('workout-sessions.save-set');
-    Route::post('/sessions/{sessionExercise}/comm', [WorkoutSessionController::class, 'saveComm'])->name('workout-sessions.save-comm');
-    Route::post('/sessions/{workoutSession}/complete', [WorkoutSessionController::class, 'complete'])->name('workout-sessions.complete');
-
-    // История
-    Route::get('/history', [WorkoutHistoryController::class, 'index'])->name('workout-history.index');
-    Route::get('/history/{workoutSession}', [WorkoutHistoryController::class, 'show'])->name('workout-history.show');
-});
-
-Route::get('/test-telegram-error', function () {
-    throw new \Exception('🧪 Тестовая ошибка Telegram уведомления');
+    Route::patch('/zone', [ZoneController::class, 'store'])->name('zone.store');
+    Route::get('/zone/fires', [ZoneController::class, 'getFires'])->name('zone.fires');
 });

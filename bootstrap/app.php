@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
             $developersChatIDs = [
                 'almat' => config('services.telegram.almat'),
-                // 'ivan'   => config('services.telegram.ivan'),
+                'beka' => config('services.telegram.beka')
             ];
 
             try {

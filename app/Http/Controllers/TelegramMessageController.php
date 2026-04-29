@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class TelegramMessageController extends Controller
 {
-    public function index()
-    {
-        return view('admin.telegram.index');
-    }
 
     public static function sendMessage($chatID, $message)
     {
