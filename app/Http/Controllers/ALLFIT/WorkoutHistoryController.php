@@ -38,6 +38,15 @@ class WorkoutHistoryController extends Controller
         ]);
     }
 
+    public function destroy(WorkoutSession $workoutSession): \Illuminate\Http\RedirectResponse
+    {
+        abort_if($workoutSession->user_id !== Auth::id(), 403);
+
+        $workoutSession->delete();
+
+        return redirect()->route('workout-history.index');
+    }
+
     public function show(WorkoutSession $workoutSession): Response
     {
         abort_if($workoutSession->user_id !== Auth::id(), 403);

@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     // История
     Route::get('/history', [WorkoutHistoryController::class, 'index'])->name('workout-history.index');
     Route::get('/history/{workoutSession}', [WorkoutHistoryController::class, 'show'])->name('workout-history.show');
+    Route::delete('/history/{workoutSession}', [WorkoutHistoryController::class, 'destroy'])->name('workout-history.destroy');
 });
 
 

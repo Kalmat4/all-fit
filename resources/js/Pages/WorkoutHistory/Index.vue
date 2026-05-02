@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
 const props = defineProps({
@@ -15,6 +15,11 @@ const formatDuration = (minutes) => {
 }
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+
+const deleteSession = (id) => {
+    if (!confirm('Удалить эту тренировку из истории?')) return
+    router.delete(`/history/${id}`)
+}
 </script>
 
 <template>
@@ -45,9 +50,14 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
                                 </span>
                             </div>
                         </div>
-                        <Link :href="`/history/${session.id}`" class="btn btn-outline-secondary btn-sm">
-                            Подробнее
-                        </Link>
+                        <div class="d-flex gap-2">
+                            <Link :href="`/history/${session.id}`" class="btn btn-outline-secondary btn-sm">
+                                Подробнее
+                            </Link>
+                            <button @click="deleteSession(session.id)" class="btn btn-outline-danger btn-sm">
+                                Удалить
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
