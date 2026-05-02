@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ALLFIT;
 
 use App\Enums\WorkoutSessionStatusEnum;
+use App\Http\Controllers\Controller;
 use App\Models\WorkoutProgram;
 use App\Models\WorkoutSession;
 use Illuminate\Support\Facades\Auth;

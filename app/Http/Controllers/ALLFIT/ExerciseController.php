@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ALLFIT;
 
 use App\Enums\ExerciseCategoryEnum;
 use App\Enums\ExerciseTypeEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ExerciseRequest;
 use App\Models\Exercise;
 use Illuminate\Http\RedirectResponse;

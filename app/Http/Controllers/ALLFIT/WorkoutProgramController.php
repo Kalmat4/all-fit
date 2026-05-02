@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ALLFIT;
 
 use App\Enums\WorkoutProgramLevelEnum;
 use App\Enums\WorkoutProgramTypeEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkoutProgramRequest;
 use App\Models\Exercise;
 use App\Models\WorkoutProgram;

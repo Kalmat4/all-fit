@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ALLFIT;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkoutSessionSetRequest;
 use App\Models\WorkoutProgram;
 use App\Models\WorkoutSession;

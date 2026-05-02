@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ExerciseController;
-use App\Http\Controllers\WorkoutHistoryController;
-use App\Http\Controllers\WorkoutProgramController;
-use App\Http\Controllers\WorkoutSessionController;
+use App\Http\Controllers\ALLFIT\DashboardController;
+use App\Http\Controllers\ALLFIT\ExerciseController;
+use App\Http\Controllers\ALLFIT\WorkoutHistoryController;
+use App\Http\Controllers\ALLFIT\WorkoutProgramController;
+use App\Http\Controllers\ALLFIT\WorkoutSessionController;
+use App\Http\Controllers\Certificate\CertificateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,6 +29,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/history/{workoutSession}', [WorkoutHistoryController::class, 'show'])->name('workout-history.show');
 });
 
-Route::get('/test-telegram-error', function () {
-    throw new \Exception('🧪 Тестовая ошибка Telegram уведомления');
-});
+
+Route::get('/certificate',          [CertificateController::class, 'index'])->name('certificate.index');
+Route::post('/certificate/generate', [CertificateController::class, 'generate'])->name('certificate.generate');

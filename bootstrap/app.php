@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TelegramMessageController;
+use App\Http\Controllers\ALLFIT\TelegramMessageController;
 use App\Http\Middleware\HandleInertiaRequests;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
