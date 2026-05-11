@@ -31,5 +31,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('/certificate',          [CertificateController::class, 'index'])->name('certificate.index');
-Route::post('/certificate/generate', [CertificateController::class, 'generate'])->name('certificate.generate');
+Route::get('/certificate',               [CertificateController::class, 'index'])->name('certificate.index');
+Route::post('/certificate/download-word', [CertificateController::class, 'downloadWord'])->name('certificate.word');
+Route::post('/certificate/download-pdf',  [CertificateController::class, 'downloadPdf'])->name('certificate.pdf');
