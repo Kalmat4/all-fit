@@ -115,7 +115,7 @@ class CertificateController extends Controller
             $debug['libreoffice_path'] = $libreoffice ?: 'NOT FOUND';
 
             $command = sprintf(
-                'libreoffice --headless --convert-to pdf --outdir %s %s 2>&1',
+                'HOME=/tmp libreoffice --headless --norestore --nofirststartwizard --convert-to pdf --outdir %s %s 2>&1',
                 escapeshellarg($pdfDir),
                 escapeshellarg($docxPath)
             );
