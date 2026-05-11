@@ -95,30 +95,59 @@ class CertificateController extends Controller
             ], 501);
         }
 
-        $data     = $this->validated($request);
-        $docxPath = $this->buildDocx($data);
-        $pdfDir   = dirname($docxPath);
+        $debug = [];
 
-        $cmdOutput = shell_exec(sprintf(
-            'libreoffice --headless --convert-to pdf --outdir %s %s 2>&1',
-            escapeshellarg($pdfDir),
-            escapeshellarg($docxPath)
-        ));
+        try {
+            $debug['os']           = PHP_OS_FAMILY;
+            $debug['template']     = $this->templatePath;
+            $debug['template_exists'] = file_exists($this->templatePath);
+            $debug['temp_dir']     = $this->tempDir;
+            $debug['temp_writable'] = is_writable(dirname($this->tempDir)) || is_writable($this->tempDir);
 
-        @unlink($docxPath);
+            $data     = $this->validated($request);
+            $docxPath = $this->buildDocx($data);
+            $pdfDir   = dirname($docxPath);
 
-        $pdfPath = substr($docxPath, 0, -5) . '.pdf';
+            $debug['docx_path']   = $docxPath;
+            $debug['docx_exists'] = file_exists($docxPath);
 
-        if (!file_exists($pdfPath)) {
-            abort(500, 'Ошибка конвертации в PDF: ' . $cmdOutput);
+            $libreoffice = trim((string) shell_exec('which libreoffice 2>&1'));
+            $debug['libreoffice_path'] = $libreoffice ?: 'NOT FOUND';
+
+            $command = sprintf(
+                'libreoffice --headless --convert-to pdf --outdir %s %s 2>&1',
+                escapeshellarg($pdfDir),
+                escapeshellarg($docxPath)
+            );
+            $debug['command'] = $command;
+
+            $cmdOutput = shell_exec($command);
+            $debug['cmd_output'] = $cmdOutput;
+
+            @unlink($docxPath);
+
+            $pdfPath = substr($docxPath, 0, -5) . '.pdf';
+            $debug['pdf_path']   = $pdfPath;
+            $debug['pdf_exists'] = file_exists($pdfPath);
+
+            if (!file_exists($pdfPath)) {
+                return response()->json(['debug' => $debug], 500);
+            }
+
+            $filename = sprintf(
+                'cert_%s_%s.pdf',
+                $data['zavod_number'],
+                str_replace('.', '', $data['check_date'])
+            );
+
+            return response()->download($pdfPath, $filename)->deleteFileAfterSend(true);
+
+        } catch (\Throwable $e) {
+            $debug['exception'] = $e->getMessage();
+            $debug['file']      = $e->getFile() . ':' . $e->getLine();
+            $debug['trace']     = $e->getTraceAsString();
+
+            return response()->json(['debug' => $debug], 500);
         }
-
-        $filename = sprintf(
-            'cert_%s_%s.pdf',
-            $data['zavod_number'],
-            str_replace('.', '', $data['check_date'])
-        );
-
-        return response()->download($pdfPath, $filename)->deleteFileAfterSend(true);
     }
 }
