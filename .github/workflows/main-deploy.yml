@@ -24,8 +24,8 @@ jobs:
                     npm run build
           - name: ✅ Notify success in Telegram
             if: ${{ success() }}
-            run: curl "https://erp.kineu.kz/deploy-notify?status=success&token=tgdeploysecrect&host=erpPROD&user=Kalmat4"
+            run: curl "https://erp.kineu.kz/deploy-notify?status=success&token=tgdeploysecrect&host=allfitPROD&user=Kalmat4"
 
           - name: ❌ Notify failure in Telegram
             if: ${{ failure() }}
-            run: curl "https://erp.kineu.kz/deploy-notify?status=failure&token=tgdeploysecrect&host=erpPROD&user=Kalmat4"
+            run: curl "https://erp.kineu.kz/deploy-notify?status=failure&token=tgdeploysecrect&host=allfitPROD&user=Kalmat4"
