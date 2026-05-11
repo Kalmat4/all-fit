@@ -301,14 +301,11 @@
         const btnP   = document.getElementById('btnPdf');
         const stub   = document.getElementById('pdfStub');
 
-        // Для PDF на Windows — показываем заглушку без отправки
-        if (type === 'pdf') {
-            const isWindows = navigator.userAgent.includes('Windows');
-            if (isWindows) {
-                stub.style.display = 'block';
-                stub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
+        // PDF недоступен если сервер на Windows (флаг приходит с сервера, не из браузера)
+        if (type === 'pdf' && !{{ $pdfAvailable ? 'true' : 'false' }}) {
+            stub.style.display = 'block';
+            stub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
         }
 
         stub.style.display = 'none';

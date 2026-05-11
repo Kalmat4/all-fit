@@ -22,7 +22,7 @@ class CertificateController extends Controller
 
     public function index()
     {
-        return view('certificate');
+        return view('certificate', ['pdfAvailable' => PHP_OS_FAMILY !== 'Windows']);
     }
 
     private function validated(Request $request): array
@@ -64,7 +64,7 @@ class CertificateController extends Controller
         $processor->setValue('class',        $data['class']);
         $processor->setValue('check_date',   $data['check_date']);
         $processor->setValue('final_date',   $data['final_date']);
-        $processor->setValue('plomb_number',   $data['plomb_number']);
+        $processor->setValue('plomb_number', $data['plomb_number']);
 
         $path = $this->tempDir . DIRECTORY_SEPARATOR . 'cert_' . Str::uuid() . '.docx';
         $processor->saveAs($path);
