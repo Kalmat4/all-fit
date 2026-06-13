@@ -59,6 +59,7 @@ class DashboardController extends Controller
             ] : null,
             'recentPrograms' => $recentPrograms,
             'recentHistory'  => $recentHistory,
+            'calorie_deficit_mode' => Auth::user()->calorie_deficit_mode,
         ]);
     }
 }

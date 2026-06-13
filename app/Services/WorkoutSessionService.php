@@ -20,6 +20,18 @@ class WorkoutSessionService
             'started_at'        => now(),
         ]);
 
+        // Разминка — добавляется первым пунктом перед упражнениями программы
+        $session->sessionExercises()->create([
+            'exercise_id'    => null,
+            'exercise_name'  => 'Разминка',
+            'planned_sets'   => 1,
+            'planned_reps'   => '-',
+            'planned_weight' => null,
+            'order'          => 0,
+            'is_warmup'      => true,
+            'mode'           => 'warmup',
+        ]);
+
         foreach ($program->programExercises()->with('exercise')->get() as $pe) {
             $session->sessionExercises()->create([
                 'exercise_id'    => $pe->exercise_id,
@@ -27,7 +39,9 @@ class WorkoutSessionService
                 'planned_sets'   => $pe->sets,
                 'planned_reps'   => $pe->reps,
                 'planned_weight' => $pe->weight,
-                'order'          => $pe->order,
+                'mode'           => $pe->mode->value,
+                'target_reps'    => $pe->target_reps,
+                'order'          => $pe->order + 1,
             ]);
         }
 

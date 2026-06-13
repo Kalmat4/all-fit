@@ -15,12 +15,17 @@ class WorkoutSessionExercise extends Model
         'planned_sets',
         'planned_reps',
         'planned_weight',
+        'mode',
+        'target_reps',
+        'is_warmup',
         'comm',
         'order',
     ];
 
     protected $casts = [
         'planned_weight' => 'float',
+        'target_reps'    => 'integer',
+        'is_warmup'      => 'boolean',
     ];
 
     public function session(): BelongsTo

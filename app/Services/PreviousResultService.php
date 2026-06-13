@@ -27,13 +27,28 @@ class PreviousResultService
             return [];
         }
 
+        $sets = $previous->sets->map(fn($s) => [
+            'set_number' => $s->set_number,
+            'reps'       => $s->reps,
+            'weight'     => $s->weight,
+        ])->toArray();
+
         return [
-            'comm' => $previous->comm,
-            'sets' => $previous->sets->map(fn($s) => [
-                'set_number' => $s->set_number,
-                'reps'       => $s->reps,
-                'weight'     => $s->weight,
-            ])->toArray()
+            'comm'    => $previous->comm,
+            'sets'    => $sets,
+            'summary' => $this->buildSummary($sets),
         ];
+    }
+
+    // Строка вида "10 + 10 + 8 + 7 = 35" для режима "По цели повторений"
+    private function buildSummary(array $sets): ?string
+    {
+        if (empty($sets)) {
+            return null;
+        }
+
+        $reps = array_map(fn($s) => (int) $s['reps'], $sets);
+
+        return implode(' + ', $reps) . ' = ' . array_sum($reps);
     }
 }

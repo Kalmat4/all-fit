@@ -7,6 +7,7 @@ const props = defineProps({
     exercises: Array,
     types: Array,
     levels: Array,
+    modes: Array,
 })
 
 const form = useForm({
@@ -33,9 +34,11 @@ const addExercise = (exercise) => {
     form.exercises.push({
         exercise_id: exercise.id,
         exercise_name: exercise.name,
+        mode: 'sets',
         sets: 3,
         reps: '10',
         weight: null,
+        target_reps: null,
     })
 }
 
@@ -157,7 +160,14 @@ const submit = () => {
                                             class="btn btn-outline-danger btn-sm py-0">✕</button>
                                     </div>
                                 </div>
-                                <div class="row g-2">
+                                <div class="mb-2">
+                                    <label class="form-label mb-1" style="font-size:0.7rem;">Режим выполнения</label>
+                                    <select v-model="item.mode" class="form-select form-select-sm">
+                                        <option v-for="m in modes" :key="m.value" :value="m.value">{{ m.label }}</option>
+                                    </select>
+                                </div>
+
+                                <div v-if="item.mode === 'sets'" class="row g-2">
                                     <div class="col-4">
                                         <label class="form-label mb-1" style="font-size:0.7rem;">Подходы</label>
                                         <input v-model.number="item.sets" type="number" min="1" max="20"
@@ -169,6 +179,18 @@ const submit = () => {
                                             class="form-control form-control-sm" />
                                     </div>
                                     <div class="col-4">
+                                        <label class="form-label mb-1" style="font-size:0.7rem;">Вес (кг)</label>
+                                        <input v-model.number="item.weight" type="number" min="0" step="0.5"
+                                            class="form-control form-control-sm" placeholder="—" />
+                                    </div>
+                                </div>
+                                <div v-else class="row g-2">
+                                    <div class="col-6">
+                                        <label class="form-label mb-1" style="font-size:0.7rem;">Цель повторений</label>
+                                        <input v-model.number="item.target_reps" type="number" min="1"
+                                            class="form-control form-control-sm" placeholder="Например: 50" />
+                                    </div>
+                                    <div class="col-6">
                                         <label class="form-label mb-1" style="font-size:0.7rem;">Вес (кг)</label>
                                         <input v-model.number="item.weight" type="number" min="0" step="0.5"
                                             class="form-control form-control-sm" placeholder="—" />

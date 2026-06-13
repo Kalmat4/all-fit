@@ -6,6 +6,7 @@ use App\Http\Controllers\ALLFIT\WorkoutHistoryController;
 use App\Http\Controllers\ALLFIT\WorkoutProgramController;
 use App\Http\Controllers\ALLFIT\WorkoutSessionController;
 use App\Http\Controllers\Certificate\CertificateController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,6 +29,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/history', [WorkoutHistoryController::class, 'index'])->name('workout-history.index');
     Route::get('/history/{workoutSession}', [WorkoutHistoryController::class, 'show'])->name('workout-history.show');
     Route::delete('/history/{workoutSession}', [WorkoutHistoryController::class, 'destroy'])->name('workout-history.destroy');
+
+    // Настройки
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::patch('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 

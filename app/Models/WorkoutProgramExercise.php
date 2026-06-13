@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ExerciseModeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,11 +14,15 @@ class WorkoutProgramExercise extends Model
         'sets',
         'reps',
         'weight',
+        'mode',
+        'target_reps',
         'order',
     ];
 
     protected $casts = [
-        'weight' => 'float',
+        'weight'      => 'float',
+        'mode'        => ExerciseModeEnum::class,
+        'target_reps' => 'integer',
     ];
 
     public function program(): BelongsTo

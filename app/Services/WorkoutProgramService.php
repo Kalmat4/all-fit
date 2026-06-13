@@ -47,6 +47,8 @@ class WorkoutProgramService
                 'sets'        => $item['sets'],
                 'reps'        => $item['reps'],
                 'weight'      => $item['weight'] ?? null,
+                'mode'        => $item['mode'],
+                'target_reps' => $item['target_reps'] ?? null,
                 'order'       => $index,
             ]);
         }

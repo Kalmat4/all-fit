@@ -1,17 +1,29 @@
 <script setup>
 import { Head, Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
+import { ref } from 'vue'
 
 const props = defineProps({
     todaySession: Object,
     recentPrograms: Array,
     recentHistory: Array,
+    calorie_deficit_mode: Boolean,
 })
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
 const startSession = (programId) => {
     router.post(`/sessions/start/${programId}`)
+}
+
+const calorieDeficitMode = ref(props.calorie_deficit_mode)
+
+const toggleCalorieDeficitMode = () => {
+    router.patch('/settings', {
+        calorie_deficit_mode: calorieDeficitMode.value,
+    }, {
+        preserveScroll: true,
+    })
 }
 </script>
 
@@ -44,6 +56,26 @@ const startSession = (programId) => {
                     <Link href="/workout-programs" class="btn btn-primary">
                         Начать тренировку
                     </Link>
+                </div>
+            </div>
+        </div>
+
+        <!-- Режим дефицита калорий -->
+        <div class="mb-4">
+            <h5 class="text-muted text-uppercase fw-semibold mb-3" style="font-size: 0.75rem; letter-spacing: 0.08em;">
+                Режим дефицита калорий
+            </h5>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div class="text-muted small">
+                        В каждом подходе оставляй 1-2 повтора в запасе
+                    </div>
+                    <div class="form-check form-switch mb-0">
+                        <input id="calorieDeficitModeDashboard" class="form-check-input" type="checkbox"
+                            role="switch" style="width: 2.5em; height: 1.4em;" v-model="calorieDeficitMode"
+                            @change="toggleCalorieDeficitMode" />
+                    </div>
                 </div>
             </div>
         </div>

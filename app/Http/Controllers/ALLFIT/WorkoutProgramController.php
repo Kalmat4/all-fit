@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ALLFIT;
 
+use App\Enums\ExerciseModeEnum;
 use App\Enums\WorkoutProgramLevelEnum;
 use App\Enums\WorkoutProgramTypeEnum;
 use App\Http\Controllers\Controller;
@@ -66,6 +67,10 @@ class WorkoutProgramController extends Controller
                 'value' => $l->value,
                 'label' => $l->label(),
             ]),
+            'modes' => collect(ExerciseModeEnum::cases())->map(fn($m) => [
+                'value' => $m->value,
+                'label' => $m->label(),
+            ]),
         ]);
     }
 
@@ -93,6 +98,8 @@ class WorkoutProgramController extends Controller
                 'sets'          => $pe->sets,
                 'reps'          => $pe->reps,
                 'weight'        => $pe->weight,
+                'mode'          => $pe->mode->value,
+                'target_reps'   => $pe->target_reps,
                 'order'         => $pe->order,
             ]);
 
@@ -113,6 +120,10 @@ class WorkoutProgramController extends Controller
             'levels' => collect(WorkoutProgramLevelEnum::cases())->map(fn($l) => [
                 'value' => $l->value,
                 'label' => $l->label(),
+            ]),
+            'modes' => collect(ExerciseModeEnum::cases())->map(fn($m) => [
+                'value' => $m->value,
+                'label' => $m->label(),
             ]),
         ]);
     }

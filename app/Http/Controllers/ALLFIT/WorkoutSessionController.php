@@ -54,6 +54,9 @@ class WorkoutSessionController extends Controller
                 'planned_sets'   => $se->planned_sets,
                 'planned_reps'   => $se->planned_reps,
                 'planned_weight' => $se->planned_weight,
+                'mode'           => $se->mode,
+                'target_reps'    => $se->target_reps,
+                'is_warmup'      => $se->is_warmup,
                 'comm' => $se->comm,
                 'sets'           => $se->sets->map(fn($s) => [
                     'set_number'   => $s->set_number,
@@ -74,6 +77,7 @@ class WorkoutSessionController extends Controller
                 'started_at'   => $workoutSession->started_at,
             ],
             'exercises' => $exercises,
+            'calorie_deficit_mode' => Auth::user()->calorie_deficit_mode,
         ]);
     }
 

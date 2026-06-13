@@ -39,6 +39,9 @@ const logout = () => {
                         <li class="nav-item">
                             <Link class="nav-link" href="/history">История</Link>
                         </li>
+                        <li class="nav-item">
+                            <Link class="nav-link" href="/settings">Настройки</Link>
+                        </li>
                     </ul>
 
                     <button class="btn btn-outline-light btn-sm" @click="logout">
